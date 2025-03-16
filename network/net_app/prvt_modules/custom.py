@@ -85,6 +85,7 @@ class Network:
         return self.host_portions
 
 
+"""
 if __name__ == '__main__':
     network = Network()
     network.create_random_ip_from_subnet()
@@ -92,3 +93,4 @@ if __name__ == '__main__':
     print(network.subnet_mask)
     network.calculate_host_portions()
     print(network.host_portions)
+"""
