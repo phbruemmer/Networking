@@ -15,5 +15,5 @@ def ipv4_test_view(request):
         for field in input_fields:
             input_fields[field] = request.POST.get(field)
         print(input_fields)
-    return render(request, "ipv4.html")
+    return render(request, "ipv4.html", )
 
