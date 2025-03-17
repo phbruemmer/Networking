@@ -20,17 +20,19 @@
 
       <section id="work-area">
         <p><b>{{ IP }}</b></p>
-        <p><b>{{ SUBNETMASK }}</b></p>
+        <p><b>{{ SUBNET_MASK }}</b></p>
 
         <form method="POST">
           {% csrf_token %}
+          <input type="hidden" name="ip" value="{{ IP }}">
+          <input type="hidden" name="subnet_mask" value="{{ SUBNET_MASK }}">
+
           <input type="text" name="network_address" placeholder="Network address" />
           <input type="text" name="host_portions" placeholder="Host portions" />
           <input type="text" name="broadcast_address" placeholder="Broadcast address" />
           <input type="number" name="max_hosts" placeholder="Maximum number of host devices" />
           <input type="text" name="address_range_from" placeholder="From" />
           <input type="text" name="address_range_to" placeholder="To" />
-
 
           <button type="submit">check</button>
         </form>
