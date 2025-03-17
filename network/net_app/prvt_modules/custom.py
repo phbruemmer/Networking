@@ -16,6 +16,7 @@ class Network:
         self.host_portions = None
         self.first_ip = None
         self.last_ip = None
+        self.hosts = None
 
     def edge_case(self):
         self.ip = None
@@ -26,6 +27,7 @@ class Network:
         self.host_portions = None
         self.first_ip = None
         self.last_ip = None
+        self.hosts = None
 
     def create_subnet_mask(self):
         prefix_length = random.randint(8, 32)
@@ -84,13 +86,25 @@ class Network:
         self.host_portions = '.'.join([str(separated_subnet_mask_int[i] & separated_ip_int[i]) for i in range(0, 4)])
         return self.host_portions
 
+    def check_values(self):
+        network_mask = f"{self.ip}/{self.subnet_mask}"
+        net = ipaddress.IPv4Network(network_mask, strict=True)
 
-"""
+        self.network_address = net.network_address
+        self.broadcast_address = net.broadcast_address
+
+        self.calculate_host_portions()
+
+        self.first_ip = self.network_address + 1
+        self.last_ip = self.broadcast_address - 1
+
+    def calc_max_number_of_hosts(self):
+        subnet_mask = '.'.join([bin(int(octet))[2:].zfill(8) for octet in self.subnet_mask.split('.')])
+        self.hosts = (2 ** subnet_mask.count('0')) - 2
+        return self.hosts
+
+
 if __name__ == '__main__':
     network = Network()
-    network.create_random_ip_from_subnet()
-    print(network.ip)
-    print(network.subnet_mask)
-    network.calculate_host_portions()
-    print(network.host_portions)
-"""
+    network.subnet_mask = "255.255.192.0"
+    network.calc_max_number_of_hosts()
