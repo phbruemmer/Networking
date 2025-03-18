@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>decimal to binary</title>
-      {% load static %}
+    {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
@@ -22,19 +22,66 @@
         <p><b>{{ IP }}</b></p>
         <p><b>{{ SUBNET_MASK }}</b></p>
 
-        <form method="POST">
+        <form method="POST" class="primary-form">
           {% csrf_token %}
-          <input type="hidden" name="ip" value="{{ IP }}">
-          <input type="hidden" name="subnet_mask" value="{{ SUBNET_MASK }}">
+          <input type="hidden" name="ip" value="{{ IP }}" />
+          <input type="hidden" name="subnet_mask" value="{{ SUBNET_MASK }}" />
 
-          <input type="text" name="network_address" placeholder="Network address" />
-          <input type="text" name="host_portions" placeholder="Host portions" />
-          <input type="text" name="broadcast_address" placeholder="Broadcast address" />
-          <input type="number" name="max_hosts" placeholder="Maximum number of host devices" />
-          <input type="text" name="address_range_from" placeholder="From" />
-          <input type="text" name="address_range_to" placeholder="To" />
+          <div class="input-container">
+            <input
+              type="text"
+              name="network_address"
+              placeholder="Network address"
+            />
+            <p>
+              {% if correct_data and correct_data.0 == True %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
+          <div class="input-container">
+            <input
+              type="text"
+              name="host_portions"
+              placeholder="Host portions"
+            />
+            <p>
+              {% if correct_data and correct_data.1 %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
+          <div class="input-container">
+            <input
+              type="text"
+              name="broadcast_address"
+              placeholder="Broadcast address"
+            />
+            <p>
+              {% if correct_data and correct_data.2 %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
+          <div class="input-container">
+            <input
+              type="number"
+              name="max_hosts"
+              placeholder="Maximum number of host devices"
+            />
+            <p>
+              {% if correct_data and correct_data.3 %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
+          <div class="input-container">
+            <input type="text" name="address_range_from" placeholder="From" />
+            <p>
+              {% if correct_data and correct_data.4 %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
+          <div class="input-container">
+            <input type="text" name="address_range_to" placeholder="To" />
+            <p>
+              {% if correct_data and correct_data.5 %}✅{% elif not correct_data %}{% else %}❌{% endif %}
+            </p>
+          </div>
 
-          <button type="submit">check</button>
+          <button type="submit" name="action" value="check">check</button>
+          <button class="small-btn" type="submit" name="action" value="next">Next</button>
         </form>
       </section>
 
@@ -66,6 +113,10 @@
       border-radius: 10px;
       box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
       width: 100%;
+    }
+
+    form {
+      margin-bottom: 20px;
     }
 
     #work-area p {
@@ -102,9 +153,56 @@
       box-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
     }
 
+    .small-btn {
+      background-color: #4c4ae2cc;
+      width: 50%;
+      margin: 10px;
+    }
+
+    .small-btn:hover {
+      background-color: #3d44b3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .small-btn:active {
+      background-color: #2f3c92;
+      transform: translateY(0);
+    }
+
+    .small-btn:focus {
+      outline: none;
+      box-shadow: 0 0 8px rgba(76, 74, 226, 0.6);
+    }
+
     a {
       font-size: 16px;
       margin-top: 15px;
+    }
+
+    .status-circle {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: grey;
+    }
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      margin-left: 5px;
+    }
+
+    .correct {
+      background-color: green;
+    }
+    .wrong {
+      background-color: red;
+    }
+    .default {
+      background-color: grey;
     }
   </style>
 </html>
