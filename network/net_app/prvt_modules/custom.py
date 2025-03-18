@@ -18,6 +18,8 @@ class Network:
         self.last_ip = None
         self.hosts = None
 
+        self.dict = {}
+
     def edge_case(self):
         self.ip = None
         self.subnet_mask = None
@@ -28,6 +30,8 @@ class Network:
         self.first_ip = None
         self.last_ip = None
         self.hosts = None
+
+        self.dict = {}
 
     def create_subnet_mask(self):
         prefix_length = random.randint(8, 32)
@@ -84,16 +88,19 @@ class Network:
         # performs a bitwise AND operation on each corresponding
         # octet, and stores the result.
         self.host_portions = '.'.join([str(separated_subnet_mask_int[i] & separated_ip_int[i]) for i in range(0, 4)])
+        print(self.host_portions)
         return self.host_portions
 
     def check_values(self):
         network_mask = f"{self.ip}/{self.subnet_mask}"
-        net = ipaddress.IPv4Network(network_mask, strict=True)
+        print(network_mask)
+        net = ipaddress.IPv4Network(network_mask, strict=False)
 
         self.network_address = net.network_address
         self.broadcast_address = net.broadcast_address
 
         self.calculate_host_portions()
+        self.calc_max_number_of_hosts()
 
         self.first_ip = self.network_address + 1
         self.last_ip = self.broadcast_address - 1
@@ -102,6 +109,19 @@ class Network:
         subnet_mask = '.'.join([bin(int(octet))[2:].zfill(8) for octet in self.subnet_mask.split('.')])
         self.hosts = (2 ** subnet_mask.count('0')) - 2
         return self.hosts
+
+    def create_dict(self):
+        self.dict = {
+            "ip": self.ip,
+            "subnet_mask": self.subnet_mask,
+            "network_address": self.network_address,
+            "host_portions": self.host_portions,
+            "broadcast_address": self.broadcast_address,
+            "max_hosts": self.hosts,
+            "address_range_from": self.first_ip,
+            "address_range_to": self.last_ip,
+        }
+        return self.dict
 
 
 if __name__ == '__main__':
