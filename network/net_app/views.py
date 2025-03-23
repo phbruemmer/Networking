@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .prvt_modules.custom import Network
+from .prvt_modules.custom import Ipv6
 from .prvt_modules.network_checks import check_data
 
 
@@ -58,6 +59,30 @@ def ipv4_test_view(request):
     return render(request, "ipv4.html", args)
 
 
+def link_local_test_view(request):
+    ipv6 = Ipv6()
 
-def ipv6_test_view(request):
-    return render(request, "ipv6.html")
+    args = {}
+
+    if request.method == 'POST':
+        btn_action = request.POST.get('action')
+        if btn_action == 'check':
+            link_local = request.POST.get('link-local')
+            ipv6.MAC = request.POST.get('mac')
+            ipv6.create_link_local_based_on_mac()
+            if link_local == ipv6.ipv6:
+                args['correct_data'] = True
+            else:
+                args['correct_data'] = False
+        else:
+            ipv6.create_MAC()
+    else:
+        ipv6.create_MAC()
+
+    args.update({
+        "MAC": ipv6.MAC,
+    })
+
+    print(ipv6.create_link_local_based_on_mac())
+
+    return render(request, "link_local.html", args)
