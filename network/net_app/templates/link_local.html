@@ -11,23 +11,21 @@
       <section id="welcome">
         <h1><span>~ Networking ~</span></h1>
         <p>
-          This page allows you to test your ability to shorten IPv6 addresses.
+          Create link-local addresses based on MAC-addresses.
         </p>
       </section>
 
       <section id="work-area">
-        <p><b>{{ IP }}</b></p>
-        <p><b>{{ SUBNET_MASK }}</b></p>
+        <p><b>{{ MAC }}</b></p>
 
         <form method="POST" class="primary-form">
           {% csrf_token %}
-          <input type="hidden" name="ipv6" value="{{ IP }}" />
+          <input type="hidden" name="mac" value="{{ MAC }}" />
 
           <div class="input-container">
-            <input type="text" name="shorted" placeholder="Network address" />
+            <input type="text" name="link-local" placeholder="Link-Local Address" />
             <p>
-              {% if correct_data and correct_data.0 == True %}✅{% elif not
-              correct_data %}{% else %}❌{% endif %}
+              {% if correct_data %}✅{% elif correct_data is None %}{% else %}❌{% endif %}
             </p>
           </div>
 
