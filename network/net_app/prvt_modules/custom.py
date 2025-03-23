@@ -201,45 +201,40 @@ class Ipv6:
                 return False
         return True
 
+    def get_full_length(self):
+        if self.ipv6 is None:
+            raise ValueError("No ipv6 address given!")
+        if not self.check_ipv6():
+            return
+
+        split_addr = []
+        prev_char = ""
+        temp = ""
+
+        for char in self.ipv6:
+            if char == ":":
+                if temp != "":
+                    split_addr.append(f"{int(temp, 16):04x}")
+                    temp = ""
+            else:
+                temp += char
+            if prev_char == ":" and char == ":":
+                split_addr.append("")
+            prev_char = char
+        split_addr.append(temp)
+
+        for segment_iter in range(0, len(split_addr)):
+            if split_addr[segment_iter] == "":
+                iter = segment_iter
+                split_addr.pop(segment_iter)
+                for i in range(0, 8 - len(split_addr)):
+                    split_addr.insert(iter, "0" * 4)
+                    iter += 1
+        self.ipv6 = ':'.join(split_addr)
+        return self.ipv6
+
 
 if __name__ == '__main__':
-    """network = Network()
-    network.subnet_mask = "255.255.192.0"
-    network.calc_max_number_of_hosts()"""
-
-    valid_ipv6_addresses = [
-        "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
-        "2001:db8:85a3::8a2e:370:7334",
-        "::1",
-        "fe80::0202:b3ff:fe1e:8329",
-        "2001:db8::ff00:42:8329",
-        "2001:0db8:0000:0000:0000:0000:0000:0001",
-        "2001:db8:abcd:ef01:2345:6789:abcd:ef01",
-        "::abcd:1234:5678:9abc",
-        "2001:db8:0:0:0:0:0:1",
-        "::1234:5678:9abc:def0"
-    ]
-
-    invalid_ipv6_addresses = [
-        "2001:db8:85a3::8a2e:370:7334::",
-        "::12345::5678",
-        "gggg:gggg:gggg:gggg:gggg:gggg:gggg:gggg",
-        "1234:5678:abcd:efgh:ijkl:mnop:qrst:uvwx",
-        "::z1f4:5678:9abc:def0",
-        "2001:db8:85a3:0000:0000:8a2e:0370:73344",
-        "2001:db8:85a3::8a2e::370:7334",
-        "::192.168.1.1",
-        "::2001:db8:85a3:0000:0000:8a2e:0370",
-        "::ffff:192.168.300.1""300"
-    ]
-
     ipv6 = Ipv6()
-
-    for ip in valid_ipv6_addresses:
-        ipv6.ipv6 = ip
-        print(ipv6.check_ipv6())
-
-    for ip in invalid_ipv6_addresses:
-        ipv6.ipv6 = ip
-        print(ipv6.check_ipv6())
-
+    ipv6.ipv6 = "2001:db8:85a3::8a2e:370:7334"
+    print(ipv6.get_full_length())
