@@ -68,6 +68,8 @@ def link_local_test_view(request):
         btn_action = request.POST.get('action')
         if btn_action == 'check':
             link_local = request.POST.get('link-local')
+            ipv6.ipv6 = link_local
+            link_local = ipv6.get_full_length()
             ipv6.MAC = request.POST.get('mac')
             ipv6.create_link_local_based_on_mac()
             if link_local == ipv6.ipv6:
