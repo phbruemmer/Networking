@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Welcome</title>
-      {% load static %}
+    {% load static %}
     <link rel="stylesheet" href="{% static 'style.css' %}" />
   </head>
   <body>
@@ -13,7 +13,8 @@
       </section>
 
       <section id="work-area">
-          <a href="/tests/ipv4/">Test IPv4</a>
+        <a href="/tests/ipv4/">Test IPv4</a>
+        <a href="/tests/ipv6/">Test IPv6</a>
       </section>
     </div>
   </body>
@@ -46,7 +47,9 @@
 
     a {
       font-size: 16px;
-      margin-top: 5px;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: block;
     }
   </style>
 </html>

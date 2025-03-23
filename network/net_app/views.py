@@ -56,3 +56,8 @@ def ipv4_test_view(request):
     })
 
     return render(request, "ipv4.html", args)
+
+
+
+def ipv6_test_view(request):
+    return render(request, "ipv6.html")
