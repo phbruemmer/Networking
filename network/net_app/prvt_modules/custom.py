@@ -80,15 +80,9 @@ class Network:
         return self.ip
 
     def calculate_host_portions(self):
-        # divides the address into 4 parts and turns each octet into an integer in a new list
-        separated_subnet_mask_int = [~int(octet) for octet in self.subnet_mask.split('.')]
+        separated_subnet_mask_int = [255 - int(octet) for octet in self.subnet_mask.split('.')]
         separated_ip_int = [int(octet) for octet in self.ip.split('.')]
-
-        # iterates through both the subnet_mask and ip lists,
-        # performs a bitwise AND operation on each corresponding
-        # octet, and stores the result.
-        self.host_portions = '.'.join([str(separated_subnet_mask_int[i] & separated_ip_int[i]) for i in range(0, 4)])
-        print(self.host_portions)
+        self.host_portions = '.'.join([str(separated_subnet_mask_int[i] & separated_ip_int[i]) for i in range(4)])
         return self.host_portions
 
     def check_values(self):
